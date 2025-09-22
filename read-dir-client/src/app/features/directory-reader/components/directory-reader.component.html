@@ -1,0 +1,77 @@
+<div class="container search-container p-0">
+
+  <form class="" [formGroup]="searchForm">
+    <div class="row g-3 d-flex flex-row h-100" >
+      <!-- Path input -->
+      <div class="col-12 col-md-7">
+        <div class="input-group has-validation">
+          <span class="input-group-text material-symbols-outlined icon">
+            mimo
+          </span>
+          <div class="form-floating flex-grow-1"
+               [ngClass]="isPathValid ? 'is-valid' : 'is-invalid'">
+            <input
+              type="text"
+              class="form-control"
+              id="pathInput"
+              formControlName="path"
+              placeholder="Enter path or full directory here"
+              [ngClass]="isPathValid ? 'is-valid' : 'is-invalid'"
+            />
+            <label for="pathInput">Enter path or full directory here</label>
+          </div>
+          @if (requiredPathError) {
+            <div class="invalid-feedback">Please enter a valid Path.</div>
+          }
+          @if (invalidFormatError) {
+            <div class="invalid-feedback">Path format is incorrect. Please enter a valid path.</div>
+          }
+          @if (invalidCharsError) {
+            <div class="invalid-feedback">Path contains invalid characters.</div>
+          }
+        </div>
+      </div>
+
+      <!-- Depth input -->
+      <div class="col-12 col-md-3">
+        <div class="form-floating has-validation"
+             [ngClass]="isDepthValid ? 'is-valid' : 'is-invalid'">
+          <input
+            type="number"
+            formControlName="depth"
+            class="form-control"
+            id="price"
+            min="1"
+            max="5"
+            placeholder="Enter depth"
+            [ngClass]="isDepthValid ? 'is-valid' : 'is-invalid'"
+          />
+          <label for="price">Search depth</label>
+
+          @if (requiredDepthError) {
+            <div class="invalid-feedback">Please enter a number.</div>
+          }
+          @if (rangeError) {
+            <div class="invalid-feedback">
+              Please enter a number within the range [1-5].
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Search button -->
+      <div class="col-12 col-md-2 mt-3 d-flex">
+        <button
+          class="btn btn-primary mt-auto btn-lg w-100"
+          [class.bottom-margin]="!isPathValid || !isDepthValid"
+          type="button"
+          [disabled]="!isPathValid || !isDepthValid"
+          (click)="onSearchClick()"
+        >Search
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<app-search-directory-results></app-search-directory-results>

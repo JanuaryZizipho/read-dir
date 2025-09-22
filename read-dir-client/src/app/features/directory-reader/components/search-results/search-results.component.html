@@ -1,0 +1,41 @@
+<div class="main-container text-dark border-secondary-subtle border rounded-3">
+  <div class=" my-table">
+    <div class="header-container">
+      <div class="row text-dark fw-bold py-2 px-3 flex-nowrap">
+         <div class="col">Filename</div>
+         <div class="col">Full path</div>
+         <div class="col">Created Date</div>
+         <div class="col-1">File Type</div>
+         <div class="col-1">Size</div>
+      </div>
+    </div>
+    <div class="search-container text-dark">
+      @for (file of searchResults$ | async; track $index; let i = $index) {
+        <app-search-results-row
+          (rowSelected)="onSubRowSelected($event)"
+          [file]="file"
+          [indexPrefix]="`${i}`">
+        </app-search-results-row>
+      }
+    </div>
+  </div>
+</div>
+
+@if (selectedRow) {
+<div class="container border rounded-3 p-2 read-more-container mb-3">
+  <div class="row text-start ">
+    @if (selectedRow.type === 'file') {
+      <div class="col col-sm flex-nowrap file-text">
+        <span class="material-symbols-outlined align-middle read-more">info</span>
+        [{{selectedRow.name}}] | Path: {{selectedRow.fullPath}} | {{selectedRow.created}} | {{fileExtention(selectedRow)}} | {{selectedRow.size}}
+      </div>
+    } @else {
+      <div class="col col-sm flex-nowrap file-text">
+        <span class="material-symbols-outlined align-middle read-more">info</span>
+        [{{selectedRow.name}}] | Path: {{selectedRow.fullPath}} | {{fileExtention(selectedRow)}}
+      </div>
+    }
+  </div>
+</div>
+}
+

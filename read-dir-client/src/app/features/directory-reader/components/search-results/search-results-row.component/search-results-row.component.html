@@ -1,0 +1,30 @@
+<div class="row search-results-row collapse-toggle flex-nowrap px-3 py-1 align-items-center"
+  data-bs-toggle="collapse"
+  [attr.data-bs-target]="'#folder-' + indexPrefix"
+  [attr.aria-controls]="'folder-' + indexPrefix"
+  role="button"
+  (click)="onSubFileSelected(file)"
+>
+
+  <div class="col text-truncate" style="max-width: 21.90rem;">
+    <span>
+      <span class="material-symbols-outlined align-middle">{{ getIcon(file)[0].name }}</span>
+      <span>{{file.name}}</span>
+    </span>
+  </div>
+
+  <div class="col text-truncate" style="max-width: 21.90rem;">{{ file.fullPath }}</div>
+  <div class="col">{{ file.created | date:'medium' }}</div>
+  <div class="col-1">{{ fileExtention(file) }}</div>
+  <div class="col-1">{{ file.size }} KB</div>
+</div>
+
+<!-- Get Subfiles -->
+<div class="collapse ms-4" [attr.id]="'folder-' + indexPrefix">
+  @for (subFile of file.subFiles; track $index; let j = $index) {
+    <app-search-results-row
+      [file]="subFile" [indexPrefix]="indexPrefix + '-' + j"
+      (click)="onSubFileSelected(subFile)"
+    ></app-search-results-row>
+  }
+</div>
